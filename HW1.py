@@ -48,6 +48,7 @@ df = discretizer.fit_transform(df)
 Task 3) Replace workclass "?" values with "Other"
 Task 4) Normalize values within Population-wgt column
 Task 5) Replace Occupation "?" values with "Other"
+Task 6) Make sex column "Male" or "Female"
 ##################################################
 '''
 #Iterate over dataframe again and apply some changes.
@@ -65,10 +66,18 @@ for rownum, data in df.iterrows():
     if("?" in df.at[rownum, "occupation"]):
         df.at[rownum, "occupation"] = "Other"
 
+    # Task 6
+    # Distinct values were found to be: [' Male' ' Female' 'm' 'M' 'F' 'f' 'male' 'female' 'fem']
+    if(df.at[rownum, "sex"] in [" Male", "m", "M", "male"]):
+        df.at[rownum, "sex"] = "Male"
+    else:
+        df.at[rownum, "sex"] = "Female"
+
+
 
 '''
 ######################################################
-Task 6)  
+Task 7)  
 ######################################################
 '''
 
