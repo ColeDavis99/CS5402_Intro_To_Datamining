@@ -4,6 +4,9 @@ from feature_engine.discretisation import EqualFrequencyDiscretiser
 from sklearn.preprocessing import KBinsDiscretizer
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2
+from scipy.stats import spearmanr
+import numpy as np
+import seaborn as sea
 
 #Read in raw census data
 df = pd.read_csv('census.csv')
@@ -94,7 +97,7 @@ df = discretizer.fit_transform(df)
 Task 9) Perform Chi-Squared test for independence between 10 nominal columns.  
 #############################################################################
 '''
-SIGNIFICANCE = 0.05
+SIGNIFICANCE = 0.05  #0.05 original
 P = 1 - SIGNIFICANCE
 
 critical_value = 0.0
@@ -127,39 +130,49 @@ for i in range(len(nominal_colnames)):
             for d in range(len(distinct_list_2)):
                 contingency_table[k].append(occurrence_dict[(distinct_list_1[k], distinct_list_2[d])])
 
-        # for item in occurrence_dict:
-        #     print("Key: {} , Value: {}".format(item,occurrence_dict[item]))
-
-        # print(distinct_list_1)
-        # print(distinct_list_2)
-
-        # for l in contingency_table:
-        #     print(l)
-
+        #Create the Pandas version of the contingency table
         contingency_df = pd.DataFrame(contingency_table, index=distinct_list_1, columns=distinct_list_2)
 
         '''Compute the chi^2 value for this column pair now that the contingency table is created'''
         chi, pval, dof, exp = chi2_contingency(contingency_df)
-        # print("Chi^2 value for " + nominal_colnames[i] + " and " + nominal_colnames[q] + " is " + str(chi))
+        print(nominal_colnames[i] + " and " + nominal_colnames[q])
         critical_value = chi2.ppf(P, dof)
 
-        print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
+        print('chi=%.6f, critical value=%.6f' % (chi, critical_value))
         if(chi > critical_value):
             print("Dependent")
         else:
             print("Independent")
 
-        # if chi > critical_value:
-        #     print(nominal_colnames[i] + " and " + nominal_colnames[q] + " are dependent")
-        # else:
-        #     print(nominal_colnames[i] + " and " + nominal_colnames[q] + " are INdependent")
-
+        
         #Erase keys and values now that we're moving on to the next column pair. Also delete the 2D array contingency table and Pandas contingency table now that we have the chi^2 value.
         occurrence_dict.clear()
         del contingency_table
         del contingency_df
 
-    print()
+        print()
+
+
+'''
+#################################################################################
+Task 10) Perform Spearman test for independence between the non-nominal columns.  NOTE: THEY ARE ALL INDEPENDENT.
+#################################################################################
+'''
+non_nominal_idxs = [0, 3, 5, 11, 12]
+
+for i in range(len(non_nominal_idxs)):
+    for q in range(i+1, len(non_nominal_idxs)):
+        X = df.iloc[:, non_nominal_idxs[i]].values.reshape(-1, 1)
+        Y = df.iloc[:, non_nominal_idxs[q]].values.reshape(-1, 1)
+        corr, p_value = spearmanr(X, Y)
+
+
+        print(df.columns.values[non_nominal_idxs[i]], df.columns.values[non_nominal_idxs[q]])
+        if(abs(corr) < 0.8):
+            print("Independent")
+        else:
+            print("Dependent")
+        print()
 
 #Write out to a different csv
 # df.to_csv('clean_census.csv', index=False)# index=False so no index column
