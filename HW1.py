@@ -94,6 +94,10 @@ df = discretizer.fit_transform(df)
 Task 9) Perform Chi-Squared test for independence between 10 nominal columns.  
 #############################################################################
 '''
+SIGNIFICANCE = 0.05
+P = 1 - SIGNIFICANCE
+
+critical_value = 0.0
 nominal_colnames = ["age", "workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "hours-per-week", "native-country"]
 occurrence_dict = {}    #Key = (distinctCol_A_Val, distinctCol_B_Val)   Value = # of times this pair of values are found together in the same row
 contingency_table = []  #This will be a 2D list
@@ -126,17 +130,34 @@ for i in range(len(nominal_colnames)):
         # for item in occurrence_dict:
         #     print("Key: {} , Value: {}".format(item,occurrence_dict[item]))
 
-        print(distinct_list_1)
-        print(distinct_list_2)
+        # print(distinct_list_1)
+        # print(distinct_list_2)
 
-        for l in contingency_table:
-            print(l)
+        # for l in contingency_table:
+        #     print(l)
 
-        # exit()
+        contingency_df = pd.DataFrame(contingency_table, index=distinct_list_1, columns=distinct_list_2)
 
-        #Erase keys and values now that we're moving on to the next column pair. Also delete the 2D array contingency table now that we have the chi square value.
+        '''Compute the chi^2 value for this column pair now that the contingency table is created'''
+        chi, pval, dof, exp = chi2_contingency(contingency_df)
+        # print("Chi^2 value for " + nominal_colnames[i] + " and " + nominal_colnames[q] + " is " + str(chi))
+        critical_value = chi2.ppf(P, dof)
+
+        print('chi=%.6f, critical value=%.6f\n' % (chi, critical_value))
+        if(chi > critical_value):
+            print("Dependent")
+        else:
+            print("Independent")
+
+        # if chi > critical_value:
+        #     print(nominal_colnames[i] + " and " + nominal_colnames[q] + " are dependent")
+        # else:
+        #     print(nominal_colnames[i] + " and " + nominal_colnames[q] + " are INdependent")
+
+        #Erase keys and values now that we're moving on to the next column pair. Also delete the 2D array contingency table and Pandas contingency table now that we have the chi^2 value.
         occurrence_dict.clear()
         del contingency_table
+        del contingency_df
 
     print()
 
