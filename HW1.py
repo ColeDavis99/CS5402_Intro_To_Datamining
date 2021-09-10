@@ -99,67 +99,67 @@ df = discretizer.fit_transform(df)
 Task 9) Perform Chi-Squared test for independence between 10 nominal columns.  
 #############################################################################
 '''
-SIGNIFICANCE = 0.05  #0.05 original
-P = 1 - SIGNIFICANCE
+# SIGNIFICANCE = 0.05  #0.05 original
+# P = 1 - SIGNIFICANCE
 
-critical_value = 0.0
-nominal_colnames = ["age", "workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "hours-per-week", "native-country"]
-occurrence_dict = {}    #Key = (distinctCol_A_Val, distinctCol_B_Val)   Value = # of times this pair of values are found together in the same row
-contingency_table = []  #This will be a 2D list
+# critical_value = 0.0
+# nominal_colnames = ["age", "workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "hours-per-week", "native-country"]
+# occurrence_dict = {}    #Key = (distinctCol_A_Val, distinctCol_B_Val)   Value = # of times this pair of values are found together in the same row
+# contingency_table = []  #This will be a 2D list
 
-'''Loop over each pair of nominal columns'''
-for i in range(len(nominal_colnames)):          
-    for q in range(i+1, len(nominal_colnames)):        
-        '''Creating contingency table for this particular pair of nominal columns'''
-        #Get listing of each column's distinct values
-        distinct_list_1 = df[nominal_colnames[i]].unique()
-        distinct_list_2 = df[nominal_colnames[q]].unique()
+# '''Loop over each pair of nominal columns'''
+# for i in range(len(nominal_colnames)):          
+#     for q in range(i+1, len(nominal_colnames)):        
+#         '''Creating contingency table for this particular pair of nominal columns'''
+#         #Get listing of each column's distinct values
+#         distinct_list_1 = df[nominal_colnames[i]].unique()
+#         distinct_list_2 = df[nominal_colnames[q]].unique()
 
-        #Loop over each pair of distinct values and initialize the dictionary that will store how many times they appear together in the same row
-        for x in range(len(distinct_list_1)):
-            for y in range(len(distinct_list_2)):
-                occurrence_dict[(distinct_list_1[x], distinct_list_2[y])] = 0
+#         #Loop over each pair of distinct values and initialize the dictionary that will store how many times they appear together in the same row
+#         for x in range(len(distinct_list_1)):
+#             for y in range(len(distinct_list_2)):
+#                 occurrence_dict[(distinct_list_1[x], distinct_list_2[y])] = 0
 
-        #Get a count of how many times each distinct pair of values are found together. (The sum of the values of this dictionary should equal the # of rows in the original dataset)
-        for rownum, data in df.iterrows():
-            occurrence_dict[(df.at[rownum, nominal_colnames[i]], df.at[rownum, nominal_colnames[q]])] += 1
+#         #Get a count of how many times each distinct pair of values are found together. (The sum of the values of this dictionary should equal the # of rows in the original dataset)
+#         for rownum, data in df.iterrows():
+#             occurrence_dict[(df.at[rownum, nominal_colnames[i]], df.at[rownum, nominal_colnames[q]])] += 1
 
-        #Initialize a contingency table, a list of lists
-        contingency_table = [[] for a in range(len(distinct_list_1))]
+#         #Initialize a contingency table, a list of lists
+#         contingency_table = [[] for a in range(len(distinct_list_1))]
 
-        #Convert the dictionary "occurrence_dict" into a contingency table. (Pandas wants it formatted a specific way).
-        for k in range(len(distinct_list_1)):
-            for d in range(len(distinct_list_2)):
-                contingency_table[k].append(occurrence_dict[(distinct_list_1[k], distinct_list_2[d])])
+#         #Convert the dictionary "occurrence_dict" into a contingency table. (Pandas wants it formatted a specific way).
+#         for k in range(len(distinct_list_1)):
+#             for d in range(len(distinct_list_2)):
+#                 contingency_table[k].append(occurrence_dict[(distinct_list_1[k], distinct_list_2[d])])
 
-        #Create the Pandas version of the contingency table
-        contingency_df = pd.DataFrame(contingency_table, index=distinct_list_1, columns=distinct_list_2)
+#         #Create the Pandas version of the contingency table
+#         contingency_df = pd.DataFrame(contingency_table, index=distinct_list_1, columns=distinct_list_2)
 
-        '''Compute the chi^2 value for this column pair now that the contingency table is created'''
-        chi, pval, dof, exp = chi2_contingency(contingency_df)
-        print(nominal_colnames[i] + " and " + nominal_colnames[q])
-        critical_value = chi2.ppf(P, dof)
+#         '''Compute the chi^2 value for this column pair now that the contingency table is created'''
+#         chi, pval, dof, exp = chi2_contingency(contingency_df)
+#         print(nominal_colnames[i] + " and " + nominal_colnames[q])
+#         critical_value = chi2.ppf(P, dof)
 
-        print('chi=%.6f, critical value=%.6f' % (chi, critical_value))
-        if(chi > critical_value):
-            print("Dependent")
-        else:
-            print("Independent")
+#         print('chi=%.6f, critical value=%.6f' % (chi, critical_value))
+#         if(chi > critical_value):
+#             print("Dependent")
+#         else:
+#             print("Independent")
 
         
-        #Erase keys and values now that we're moving on to the next column pair. Also delete the 2D array contingency table and Pandas contingency table now that we have the chi^2 value.
-        occurrence_dict.clear()
-        del contingency_table
-        del contingency_df
+#         #Erase keys and values now that we're moving on to the next column pair. Also delete the 2D array contingency table and Pandas contingency table now that we have the chi^2 value.
+#         occurrence_dict.clear()
+#         del contingency_table
+#         del contingency_df
 
-        print()
+#         print()
 
 
 '''
 #################################################################################
 Task 10) Perform Spearman test for independence between the non-nominal columns.  NOTE: THEY ARE ALL INDEPENDENT.
 #################################################################################
-'''
+
 non_nominal_idxs = [0, 3, 5, 11, 12]
 
 for i in range(len(non_nominal_idxs)):
@@ -175,7 +175,7 @@ for i in range(len(non_nominal_idxs)):
         else:
             print("Dependent")
         print()
-
+'''
 
 '''
 #################################################################################
@@ -209,9 +209,21 @@ df[non_numeric_cols] = StandardScaler().fit_transform(df[non_numeric_cols])
 
 '''
 #################################################################################
-Task 12) Perform PCA 
+Task 12) Perform PCA
+determine the 10 most important attributes by considering the cumulative contribution that each attribute makes in the first seven principal components  
 #################################################################################
 '''
+#Compute the PCA scores
+n_components = len(non_numeric_cols) 
+pca = PCA(n_components=n_components)
+reduced = pca.fit_transform(df[non_numeric_cols])  # transformed df
+
+#Get the eigenvalues for each PCA column
+pcvals = pca.explained_variance_ratio_
+
+print("This is pcvals")
+print(pcvals)
+
 
 
 #Write out to a different csv
