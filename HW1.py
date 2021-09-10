@@ -7,6 +7,8 @@ from scipy.stats import chi2
 from scipy.stats import spearmanr
 import numpy as np
 import seaborn as sea
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 #Read in raw census data
 df = pd.read_csv('census.csv')
@@ -174,5 +176,43 @@ for i in range(len(non_nominal_idxs)):
             print("Dependent")
         print()
 
+
+'''
+#################################################################################
+Task 11) Change all non-numeric columns to numeric and standardize each attribute
+#################################################################################
+'''
+non_numeric_cols = list(df.columns.values)
+non_numeric_cols.pop()  #Remove the decision attribute from the list to normalize and standardize
+
+distinctVals = []
+replace_dict = {}
+
+#Loop over all cols in the dataframe
+for i in range(len(non_numeric_cols)):
+    distinctVals = df[non_numeric_cols[i]].unique()
+    
+    #Create a dictionary of each distinct values in the column and assign it the number it maps to
+    for q in range(len(distinctVals)):
+        replace_dict[distinctVals[q]] = q
+        
+    #Replace the values in the dataframe with the numeric mapping we just computed.
+    for rownum, data in df.iterrows():
+        df.at[rownum, non_numeric_cols[i]] = replace_dict[df.at[rownum, non_numeric_cols[i]]]
+
+    replace_dict.clear()
+    del distinctVals
+
+#Standardize the numeric columns we just mapped
+df[non_numeric_cols] = StandardScaler().fit_transform(df[non_numeric_cols])
+
+
+'''
+#################################################################################
+Task 12) Perform PCA 
+#################################################################################
+'''
+
+
 #Write out to a different csv
-# df.to_csv('clean_census.csv', index=False)# index=False so no index column
+df.to_csv('clean_census.csv', index=False)# index=False so no index column
