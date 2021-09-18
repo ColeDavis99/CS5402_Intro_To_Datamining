@@ -1,0 +1,11 @@
+outlook,temperature,humidity,windy,play
+good,warm,high,FALSE,no
+good,warm,high,TRUE,no
+bad,warm,high,FALSE,no
+bad,cool,normal,FALSE,yes
+bad,cool,normal,TRUE,yes
+good,cool,normal,FALSE,yes
+good,warm,normal,TRUE,yes
+bad,cool,high,TRUE,yes
+bad,warm,normal,FALSE,yes
+good,cool,high,TRUE,no
