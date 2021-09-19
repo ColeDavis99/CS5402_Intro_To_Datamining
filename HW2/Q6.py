@@ -41,4 +41,4 @@ dot_data = tree.export_graphviz(
 
 graph = graphviz.Source(dot_data)
 
-graph.render("Trading_Decision_Tree") # see Trading_Decision_Tree.pd
+graph.render("Trading_Decision_Tree") # see Trading_Decision_Tree.pdf
