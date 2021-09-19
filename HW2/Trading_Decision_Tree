@@ -1,0 +1,17 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label=<humidity &le; 0.5<br/>gini = 0.48<br/>samples = 10<br/>value = [4, 6]<br/>class = yes>, fillcolor="#bddef6"] ;
+1 [label=<gini = 0.0<br/>samples = 5<br/>value = [0, 5]<br/>class = yes>, fillcolor="#399de5"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<temperature &le; 0.5<br/>gini = 0.32<br/>samples = 5<br/>value = [4, 1]<br/>class = no>, fillcolor="#eca06a"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label=<outlook &le; 0.5<br/>gini = 0.5<br/>samples = 2<br/>value = [1, 1]<br/>class = no>, fillcolor="#ffffff"] ;
+2 -> 3 ;
+4 [label=<gini = 0.0<br/>samples = 1<br/>value = [0, 1]<br/>class = yes>, fillcolor="#399de5"] ;
+3 -> 4 ;
+5 [label=<gini = 0.0<br/>samples = 1<br/>value = [1, 0]<br/>class = no>, fillcolor="#e58139"] ;
+3 -> 5 ;
+6 [label=<gini = 0.0<br/>samples = 3<br/>value = [3, 0]<br/>class = no>, fillcolor="#e58139"] ;
+2 -> 6 ;
+}
