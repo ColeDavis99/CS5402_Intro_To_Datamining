@@ -1,0 +1,11 @@
+married,education,income,creditCardDebt,cardCategory
+yes,highSchool,ge50k,low,Blue
+yes,highSchool,ge50k,high,Blue
+no,highSchool,ge50k,low,Blue
+no,college,lt50k,low,Gold
+no,college,lt50k,high,Gold
+yes,college,lt50k,low,Gold
+yes,highSchool,lt50k,high,Gold
+no,college,ge50k,high,Gold
+no,highSchool,lt50k,low,Gold
+yes,college,ge50k,high,Blue
