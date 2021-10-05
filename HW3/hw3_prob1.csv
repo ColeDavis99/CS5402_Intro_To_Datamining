@@ -1,0 +1,8 @@
+married,education,income,creditLine,cardCategory
+no,college,low,10k,Blue
+yes,college,low,5k,Gold
+no,college,low,10k,Blue
+yes,highSchool,middle,7k,Silver
+yes,graduate,middle,7k,Silver
+no,highSchool,high,5k,Red
+no,college,middle,10k,Gold
