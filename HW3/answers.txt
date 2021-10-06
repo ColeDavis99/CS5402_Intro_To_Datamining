@@ -26,4 +26,45 @@ If _ then cardCategory = Red and married = yes
 Accuracy: 0/7
 
 
-2) [See the 2.png screenshot for the WEKA part]
+
+
+2) [See the 2.png screenshot for the WEKA part of the question]
+
+Table for cardCategory = Blue
+Values                      t           p               Accuracy
+-----------------------+---------+--------------+----------------------+
+married = yes               5           3               3/5
+married = no                5           1               1/5
+education = highSchool      5           3               3/5
+education = college         5           1               1/5
+income = ge50k              5           4               4/5
+income = lt50k              5           0               0/5
+creditCardDebt = low        5           2               2/5
+creditCardDebt = high       5           2               2/5
+
+Rule Generated: if income = ge50k then cardCategory = Blue
+
+
+
+Table for cardCategory = Gold
+Values                      t           p               Accuracy
+-----------------------+---------+--------------+----------------------+
+married = yes               5           2               2/5
+married = no                5           4               4/5
+education = highSchool      5           2               2/5
+education = college         5           4               4/5
+income = ge50k              5           1               1/5
+income = lt50k              5           5               5/5
+creditCardDebt = low        5           3               3/5
+creditCardDebt = high       5           3               3/5
+
+Rule Generated: if income = lt50k then cardCategory = Gold
+
+
+Final Rule Listing:
+if income = ge50k then cardCategory = Blue
+if income = lt50k then cardCategory = Gold
+
+
+
+3)
