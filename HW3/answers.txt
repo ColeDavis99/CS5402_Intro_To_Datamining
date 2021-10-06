@@ -1,0 +1,27 @@
+1a) Coverate of each item set
+education = highSchool, cardCategory = Red
+coverage = 1
+
+married = no, income = low, creditLine = 7k
+coverage = 0
+
+
+1b) Every association rule that could be generated from the 2-item set
+of married = no, cardCategory = Blue
+
+if married = no then cardCategory = Blue
+if cardCategory = Blue then married = no
+if _ then married = no and cardCategory = Blue
+
+
+1c) Compute the accuracy of each rule listed below as a fraction.
+If married = yes then income = middle
+Accuracy: 2/3
+
+If married = no and education = college 
+then creditLine = 10k and cardCategory = Blue
+Accuracy: 2/3
+
+If _ then cardCategory = Red and married = yes
+Accuracy: 0/7
+
