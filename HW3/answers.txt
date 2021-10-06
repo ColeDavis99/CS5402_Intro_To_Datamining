@@ -25,3 +25,5 @@ Accuracy: 2/3
 If _ then cardCategory = Red and married = yes
 Accuracy: 0/7
 
+
+2) [See the 2.png screenshot for the WEKA part]
