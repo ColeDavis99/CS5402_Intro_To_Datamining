@@ -78,3 +78,83 @@ x1          2*0 + 2*1 + 2*0 + 2*1 = 4>2     1            0           w_milk=2, w
 x2          2*1 + 1*1 + 2*0 + 1*0 = 3>2     1            1           w_milk=2, w_beer=1, w_diapers=2, w_chips=1
 x3          2*0 + 1*0 + 2*0 + 1*1 = 1<2     0            1           w_milk=2, w_beer=1, w_diapers=2, w_chips=2
 x4          2*0 + 1*1 + 2*0 + 2*0 = 1<2     0            0           w_milk=2, w_beer=1, w_diapers=2, w_chips=2
+
+
+
+4) Make a kd-tree where k=2 from the dataset provided.
+
+//Sort non-decision attributes on the x dimension. Bring in each row's y dimension too as a tuple.
+[(1,5), (2,8), (2,10), (3,20), (4,20), (5,30), (6,40), (7,50), (8,60)]
+
+//Find median value of x in the list
+Median: 4
+
+//Make two sublists, one with x >= median and another with x < median.
+[(1,5), (2,8), (2,10), (3,20), (4,20)]
+[(5,30), (6,40), (7,50), (8,60)]
+
+//Now sort the sublists based on the y value (already done coincidently)
+[(1,5), (2,8), (2,10), (3,20), (4,20)]
+[(5,30), (6,40), (7,50), (8,60)]
+
+//Find median value of y for each sublist
+[(1,5), (2,8), (2,10), (3,20), (4,20)];     Y Median: 10
+[(5,30), (6,40), (7,50), (8,60)];           Y Median: 45
+
+//Make two sublists for each sublist based on this Y median.
+[(1,5), (2,8), (2,10)]
+[(3,20), (4,20)]
+
+[(5,30), (6,40)]
+[(7,50), (8,60)]
+
+//One iteration has been completed for each dimension (x and y) but each list does not 
+//yet have a length of 1 so go back to x and repeat. (Already sorted by x coincidently)
+[(1,5), (2,8), (2,10)]; X Median: 2
+[(3,20), (4,20)];       X Median: 3.5; ~4
+
+[(5,30), (6,40)];       X Median: 5.5; ~6
+[(7,50), (8,60)];       X Median: 7.5; ~7
+
+//Make each list into a sublist again
+[(1,5)]
+[(2,8), (2,10)]
+
+[(3,20)]
+[(4,20)]
+
+[(5,30)]
+[(6,40)]
+
+[(7,50)]
+[(8,60)]
+
+//Sort the remaining list with two tuples based on Y value,
+//compute the median, and then split it into a sublist. (Y Median is 9)
+
+[(1,5)]
+[(2,8)] 
+
+[(2,10)]
+
+[(3,20)]
+[(4,20)]
+
+[(5,30)]
+[(6,40)]
+
+[(7,50)]
+[(8,60)]
+
+//Now assemble the k/d tree.
+
+
+
+
+
+
+
+
+
+
+
