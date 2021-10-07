@@ -135,7 +135,6 @@ Median: 4
 [(1,5)]
 
 [(2,8)] 
-
 [(2,10)]
 
 [(3,20)]
@@ -148,6 +147,9 @@ Median: 4
 [(8,60)]
 
 //Now assemble the k/d tree.
+
+X     Y   X   Y
+-----------------
 
                  [2,10]
                 /
@@ -174,3 +176,46 @@ Median: 4
            (7)
              \
               [7,50]
+
+
+
+#5) Show how k-means clustering using k=3 would cluster attrs a and b
+
+//Initial cluster centers = (2,4), (5,6), (8,1)
+//Use manhattan distance to compute distance:  i.e. |a1 - a2| + |b1 - b2|
+
+    a       b        dist to (2,4)      dist to (5,6)       dist to (8,1)
++-------+--------+------------------+-------------------+-------------------+
+    2       4           0                   5                   9
+    5       6           5                   0                   8
+    8       1           9                   8                   0
+    7       3           6                   5                   3
+    4       10          8                   5                   13
+    3       0           5                   8                   6
+    9       8           11                  6                   8
+
+
+
+cluster (2,4): (2,4), (3,0)             Mean (Centroid) of this cluster = (3,2)
+cluster (5,6): (5,6), (4,10), (9,8)     Mean (Centroid) of this cluster = (6,8)
+cluster (8,1): (8,1), (7,3)             Mean (Centroid) of this cluster = (8,2)
+
+
+//Now re-cluster based on these computed centroids
+
+    a       b        dist to (3,2)      dist to (6,8)       dist to (8,2)
++-------+--------+------------------+-------------------+-------------------+
+    2       4           3                   8                   8                                      
+    5       6           6                   3                   7
+    8       1           6                   9                   1
+    7       3           5                   6                   2
+    4       10          9                   4                   12
+    3       0           2                   11                  7
+    9       8           12                  3                   7
+
+cluster (3,2):  (2,4,11), (3,0,3)
+cluster (6,8):  (5,6,5), (4,10,8), (9,8,1)
+cluster (8,2):  (8,1,7), (7,3,4)
+
+//These new clusters have the same tuples as the previous cluster, so the algorithm ends.
+//The c values were added to the tuples in the end for completeness, they didn't affect the algorithm at all.
