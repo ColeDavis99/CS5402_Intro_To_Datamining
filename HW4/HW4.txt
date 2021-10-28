@@ -1,0 +1,165 @@
+1)
+Sort rows based on ProteinPercent attribute
+
+CatFoodBrand    ProteinPercent  WhereSold
+--------------------------------------------
+SkeevyKitty     8               DiscountStore
+AlleyCat        10              GroceryStore
+BarnCat         10              DiscountStore
+FeralKitty      10              GroceryStore
+8.5Lives        16              GroceryStore
+FriskyFeline    16              GroceryStore
+MouseyNiblets   16              PetStore
+FeedDaKitty     22              DiscountStore
+KittyKatKravin  22              PetStore
+CheetahsChoice  28              GroceryStore
+MistaWhiskas    28              GroceryStore
+YouCanuba       30              PetStore
+
+
+Calculate the information gain for each ProteinPercent midpoint between values:
+EntropyBeforeSplit = 1.5
+
+ProteinPercent < 9 [Discount 1]
+    entropyLT = -1/1 * log2(1/1) = 0
+ProteinPercent > 9 [Discount 2, Grocery 6, Pet 3]
+    entropyGT = -2/11 * log2(2/11) - 6/11 * log2(6/11) - 3/11 * log2(3/11) = 1.4354
+EntropyAfterSplit = 1/12 * 0 + 11/12 * 1.4354 = 1.3158
+InformationGain = 1.5 - 1.3158 = 0.1842
+
+ProteinPercent < 13 [Discount 2, Grocery 2]
+    entropyLT = -2/4 * log2(2/4) - 2/4 * log2(2/4) = 1
+ProteinPercent > 13 [Discount 1, Grocery 4, Pet 3]
+    entropyGT = -1/8 * log2(1/8) - 4/8 * log2(4/8) - 3/8 * log2(3/8) =1.4056
+EntropyAfterSplit = 4/12 * 1 + 8/12 * 1.4056 = 1.2704
+InformationGain = 1.5 - 1.2704 = 0.2296
+
+ProteinPercent < 19 [Discount 2, Grocery 4, Pet 1]
+    entropyLT = -2/7 * log2(2/7) - 4/7 * log2(4/7) - 1/7 * log2(1/7) = 1.3788
+ProteinPercent > 19 [Discount 1, Grocery 2, Pet 2]
+    entropyGT = -1/5 * log2(1/5) - 2/5 * log2(2/5) - 2/5 * log2(2/5) = 0.9932
+EntropyAfterSplit = 7/12 * 1.3788 + 5/12 * 0.9932 = 1.2181
+InformationGain = 1.5 - 1.2181 = 0.2819
+
+ProteinPercent < 25 [Discount 2, Grocery 4, Pet 2]
+    entropyLT = -3/9 * log2(3/9) - 4/9 * log2(4/9) - 2/9 * log2(2/9) = 1.5305
+ProteinPercent > 25 [Grocery 2, Pet 1]
+    entropyGT = -2/3 * log2(2/3) - 1/3 * log2(1/3) = 0.9183
+EntropyAfterSplit = 9/12 * 1.5305 + 3/12 * 0.9183 = 1.3774
+InformationGain = 1.5 - 1.3774 = 0.1226
+
+ProteinPercent < 29 [Discount 3, Grocery 6, Pet 2]
+    entropyLT = -3/11 * log2(3/11) - 6/11 * log2(6/11) - 2/11 * log2(2/11) = 1.4353
+ProteinPercent > 29 [Pet 1]
+    entropyGT = 1/1 * log2(1/1) = 0
+EntropyAfterSplit = 11/12 * 1.4353 + 1/12 * 0 = 1.3158
+InformationGain = 1.5 - 1.3158 = 0.1842
+
+After doing these information gain calculations, protein value of 19 had highest info gain.
+Use protein value of 19 as the pivot point for creating binary nominal attribute.
+
+Final Dataset:
+
+CatFoodBrand    ProteinPercent  WhereSold
+--------------------------------------------
+SkeevyKitty     LT19            DiscountStore
+AlleyCat        LT19            GroceryStore
+BarnCat         LT19            DiscountStore
+FeralKitty      LT19            GroceryStore
+8.5Lives        LT19            GroceryStore
+FriskyFeline    LT19            GroceryStore
+MouseyNiblets   LT19            PetStore
+FeedDaKitty     GT19            DiscountStore
+KittyKatKravin  GT19            PetStore
+CheetahsChoice  GT19            GroceryStore
+MistaWhiskas    GT19            GroceryStore
+YouCanuba       GT19            PetStore
+
+
+2) (Pic on Paper)
+
+3) (Pic on Paper)
+
+
+
+4)
+            Leaf                         N       E       distributionVal     U_90%(E, N) aka error rate
+--------------------------------------+-----+--------+--------------------+------------------------------+
+Credit History = no credits/all paid     1       0       0.05                0.95
+Credit History = all paid                1       0       0.05                0.95
+Credit History = existing paid           7       1       0.4793              0.5207
+Credit History = delayed previously      0       0       0                   0
+Credit History = critical/other existing 2       0       0.2236              0.7764
+
+predicted errors for subtree = (1*0.95) + (1*0.95) + (7*0.5207) + 0 + (2*0.7764) = 7.0977
+
+Replace subtree leaf with (11/2):
+    predicted error = 11 * U_90%(2,11) = 11 * 0.4701 = 5.1711
+
+Original subtree has higher predicted error rate, so prune it and replace it with the 11/2.
+
+
+We're not at the root yet so continue evaluating whether or not pruning should occur.
+
+            Leaf                               N       E       distributionVal     U_90%(E, N) aka error rate
+--------------------------------------------+-----+--------+--------------------+------------------------------+
+Personal Status = male div/sep: bad            1       0       0.05                0.95
+Personal Status = female div/dep/mar: good     7       0       0.6518              0.3482
+Personal Status = male single: good            11      2       0.5299              0.4701
+Personal Status = male mar/wid: good           1       0       0.05                0.95
+Personal Status = female single: good          0       0       0                   0
+
+predicted errors for subtree = (1*0.95) + (7*0.3482) + (11*0.4701) + (1*0.95) = 9.5085
+
+Replace subtree leaf with (19/3)
+    predicted error = 19 * U_90%(3, 19) = 19 * 0.3594 = 6.8286
+
+Original subtree has higher predicted error rate, so prune it and replace it with the 19/3
+
+The root of the tree has been reached so terminate algorithm.
+
+Final tree after pruning:
+property_magnitude = car: good (19/3)
+
+
+
+
+5)
+C = Recommended lenses = none
+X = If Astigmatism = yes
+
+   |    C       !C      @C
+---+------------------------+
+X  |    Y1      E1      Q1   
+!X |    Y2      E2      Q2
+
+Y1: Spectacle Prescription = myope, Astigmatism = yes, Recommended Lenses = none: 3
+E1: Spectacle Prescription = myope, Astigmatism = yes, Recommended Lenses = hard: 3
+Q1: Spectacle Prescription = myope, Astigmatism = yes, Recommended Lenses = soft: 0
+Y2: Spectacle Prescription = myope, Astigmatism = no, Recommended Lenses = none: 4
+E2: Spectacle Prescription = myope, Astigmatism = no, Recommended Lenses = hard: 0
+Q2: Spectacle Prescription = myope, Astigmatism = no, Recommended Lenses = soft: 2
+
+Rule R Estimated Error Rate = U_25%(E1 + Q1, Y1 + E1 + Q1) = U_25%(3, 6) = 0.6391
+Rule R` Estimated Error Rate = U_25%(E1 + E2 + Q1 + Q2, Y1 + Y2 + E1 + E2 + Q1 + Q2) = U_25%(5, 12) = 0.5045
+
+
+X = If Spectacle Prescription = myope:
+   |    C       !C      @C
+---+------------------------+
+X  |    Y1      E1      Q1   
+!X |    Y2      E2      Q2
+
+Y1: Astigmatism = yes, Spectacle Prescription = myope, Recommended Lenses = none: 3
+E1: Astigmatism = yes, Spectacle Prescription = myope, Recommended Lenses = hard: 3
+Q1: Astigmatism = yes, Spectacle Prescription = myope, Recommended Lenses = soft: 0
+Y2: Astigmatism = yes, Spectacle Prescription = hypermetrope, Recommended Lenses = none: 5
+E2: Astigmatism = yes, Spectacle Prescription = hypermetrope, Recommended Lenses = hard: 1
+Q2: Astigmatism = yes, Spectacle Prescription = hypermetrope, Recommended Lenses = soft: 0
+
+Rule R Estimated Error Rate = U_25%(E1 + Q1, Y1 + E1 + Q1) = U_25%(3,6) = 0.6391
+Rule R` Estimated Error Rate = U_25%(E1 + E2 + Q1 + Q2 + Y1 + Y2 + E1 + E2 + Q1 + Q2) = U_25%(4, 12) = 0.4228
+
+Final Results:
+Dropping Astigmatism = yes condition:               0.5045 predicted error rate.
+Dropping Spectacle Prescription = myope condition:  0.4228 predicted error rate.
