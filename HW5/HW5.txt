@@ -1,0 +1,37 @@
+Q2)
+
+Linear Testing:
+------------------------------------------------
+Training Data Accuracy: 4/4 green, 3/5 blue, 78% accurate
+Testing Data Accuracy: 50%
+Test Data Comments: Training data had a higher success rate than expected, considering how the 
+                    data does not initially appear to be linearly seperable. The testing data 
+                    confirms the initial suspicion that the data is not easy to categorize linearly
+                    due to the low success rate of 50%.
+
+Poly Testing:
+------------------------------------------------
+Training Data Accuracy: 4/4 green, 5/5 blue, 100% accurate 
+Testing Data Accuracy: 100%
+Test Data Comments: The polynomial SVM is well suited to this shape of dataset where each type
+                    of data is not intermingled. Both the training and testing datasets achieved an
+                    impressive 100% accuracy rate.
+
+
+RBF Testing:
+------------------------------------------------
+Training Data Accuracy: 4/4 green, 5/5 blue, 100% accurate
+Testing Data Accuracy: 75%
+Test Data Comments: The point (2,2) is mislabelled as blue (-1) in my opinion. The data appears
+                    to have a slight bulge to the top right and (2,2) should be green (1). Overall,
+                    the RBF SVM is an accurate model that might reach a 100% accuracy in test data 
+                    if another opinion were to be evaluated.
+
+
+Sigmoid Testing:
+------------------------------------------------
+Training Data Accuracy: 3/4 green, 3/5 blue, 67% accurate
+Testing Data Accuracy: 50% accurate
+Test Data Comments: While the curves produced by the sigmoid model appear similar to the poly SVM,
+                    the accuracy is, however, low. I believe with more data the sigmoid model could
+                    see an increase in accuracy and produce results similar to the poly model.
