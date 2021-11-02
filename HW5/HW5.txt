@@ -12,20 +12,22 @@ Test Data Comments: Training data had a higher success rate than expected, consi
 Poly Testing:
 ------------------------------------------------
 Training Data Accuracy: 4/4 green, 5/5 blue, 100% accurate 
-Testing Data Accuracy: 100%
-Test Data Comments: The polynomial SVM is well suited to this shape of dataset where each type
-                    of data is not intermingled. Both the training and testing datasets achieved an
-                    impressive 100% accuracy rate.
+Testing Data Accuracy: 75%
+Test Data Comments: The polynomial SVM is well suited to this shape of dataset where each
+                    class of data is bunched together and not intermingled. There was 
+                    one outlier (4,5) that appears to be mislabelled as 1 instead of -1.
+                    Overall, this is a good (though not the best) model for this dataset.
 
 
 RBF Testing:
 ------------------------------------------------
 Training Data Accuracy: 4/4 green, 5/5 blue, 100% accurate
-Testing Data Accuracy: 75%
-Test Data Comments: The point (2,2) is mislabelled as blue (-1) in my opinion. The data appears
-                    to have a slight bulge to the top right and (2,2) should be green (1). Overall,
-                    the RBF SVM is an accurate model that might reach a 100% accuracy in test data 
-                    if another opinion were to be evaluated.
+Testing Data Accuracy: 100%
+Test Data Comments: The RBF SVM is the most accurate model that might for both datasets. 
+                    Due to the circular "bullseye" shape of the data when graphed spacially,
+                    the RBF model is able to accurately mimic the shape of the data and 
+                    create classification boundaries with extreme accuracy. I believe this 
+                    is the best model to use for this dataset and any future test data.
 
 
 Sigmoid Testing:
