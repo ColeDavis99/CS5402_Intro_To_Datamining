@@ -47,14 +47,8 @@ for idx, row in df.iterrows():
     colctr = 0
     for cell in row:
         if(row.index[colctr] != decAttr):
-            # print(row.index[colctr])            #colname
-            # print(cell)                         #cell value
-            # print(row[dflen])                   #Decision attribute value for the row
-            # print()
-
             conditional_prob_table[str(row.index[colctr]) + str(cell) + str(row[dflen])] += 1
             colctr += 1
-    print()
 
 
 #Store a copy of the count of each combination of colname, cell value, and decision attribute.
@@ -92,5 +86,73 @@ for col in list(df)[:-1]:
             conditional_prob_table[col+distinctNonDecVal+distinctDecVal] = (combination_snapshot[col+distinctNonDecVal+distinctDecVal] + LMBDA) / ((df[decAttr].value_counts().at[distinctDecVal]) + (len(list(df[col].unique())) * LMBDA))
 
 #Debugging Loop 2
+'''
 for key in conditional_prob_table:
     print("Key: " + key + ": \t" + str(conditional_prob_table[key]))
+'''
+
+
+
+'''#######################################
+Create the Bayesian Network w/Pomegranate 
+##########################################'''
+#Create Decision Attribute dictionary
+decAttrDict = dict()
+for val in distinctDecValList:
+    decAttrDict[val] = conditional_prob_table[decAttr+val]
+
+decisionTable = DiscreteDistribution(decAttrDict)
+
+
+#Create a list of Conditional Probability Tables
+conditionalProbTableList = list()
+
+outerTempList = list()
+innerTemplist = list()
+for col in list(df)[:-1]:                           #For each non-dec column
+    for distinctNonDecVal in df[col].unique():      #For each distinct value in that column
+        for distinctDecVal in df[decAttr].unique():
+            innerTemplist.append(str(distinctDecVal))
+            innerTemplist.append(str(distinctNonDecVal))
+            innerTemplist.append(conditional_prob_table[col+distinctNonDecVal+distinctDecVal])
+
+
+            outerTempList.append(copy.deepcopy(innerTemplist))
+            innerTemplist.clear()
+
+    conditionalProbTableList.append(ConditionalProbabilityTable(outerTempList, [decisionTable]))
+    outerTempList.clear()
+
+
+# print(conditionalProbTableList)
+
+
+
+#Create decision attribute node object
+decNode = Node(decisionTable, name=decAttr)
+
+#Create a list of node objects that will make up the Bayesian network (not the decision attribute node yet though)
+nodeList = list()
+nodeNameCtr = 0
+for table in conditionalProbTableList:
+    nodeList.append(Node(table, name=colList[nodeNameCtr]))   #Ex: Creates a node named 2 for the 3rd column in the dataset 
+    # print(table)
+    nodeNameCtr += 1
+
+
+#Create the model and bake it
+model = BayesianNetwork("HW5_Network")
+model.add_state(decNode)
+
+#Add the nodes
+for node in nodeList:
+    model.add_state(node)
+
+#Add the edges
+for node in nodeList:
+    model.add_edge(decNode, node)
+
+# print(model)
+
+#Like an oven
+model.bake()
